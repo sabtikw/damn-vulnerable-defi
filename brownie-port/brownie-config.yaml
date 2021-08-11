@@ -1,0 +1,4 @@
+networks:
+  development:
+    cmd_settings:
+      default_balance: 11000

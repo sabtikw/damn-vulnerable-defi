@@ -3,3 +3,8 @@ build
 contracts/attacker-contracts/*.sol
 *.solved.js
 cache
+__pycache__
+.history
+.hypothesis/
+reports/
+.env
