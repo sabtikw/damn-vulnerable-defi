@@ -1,6 +1,6 @@
 import pytest
-from brownie import DamnValuableToken, TrusterLenderPool
-
+from brownie import DamnValuableToken, TrusterLenderPool, web3
+from eth_abi import encode_abi
 
 @pytest.fixture(scope='module')
 def deployer(accounts):
@@ -33,11 +33,9 @@ def setup(pool,token,deployer,attacker):
 
 def test_exploit(pool,token,attacker):
     # Exploit goes here
-    
     pass
 
-
-def test_success(token,attacker):
+def test_success(token,pool,attacker):
 
     TOKENS_IN_POOL = 1000000e18
 
