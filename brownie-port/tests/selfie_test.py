@@ -1,12 +1,10 @@
 import pytest
-
 from brownie import DamnValuableTokenSnapshot, SimpleGovernance, SelfiePool
 
 
 @pytest.fixture(scope='module')
 def deployer(accounts):
     return accounts[0]
-
 
 @pytest.fixture(scope='module')
 def attacker(accounts):
@@ -27,11 +25,9 @@ def governance(token,deployer):
 def pool(token,governance,deployer):
     return SelfiePool.deploy(token.address,governance.address,{'from':deployer})
 
-
-
 @pytest.fixture(scope='module',autouse=True)
 def setup(token,pool,deployer):
-
+    ''' [Challenge] selfie '''
 
     TOKENS_IN_POOL = '1500000 ether'
     
@@ -42,9 +38,6 @@ def setup(token,pool,deployer):
 def test_exploit(token,pool,attacker):
     # Exploit goes here
     pass
-    
-
-
 
 def test_success(token,pool,attacker):
     # SUCCESS CONDITION 

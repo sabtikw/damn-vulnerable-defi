@@ -1,7 +1,5 @@
 import pytest
-
 from brownie import Exchange, DamnValuableNFT, TrustfulOracle, TrustfulOracleInitializer, accounts
-
 
 @pytest.fixture(scope='module')
 def deployer():
@@ -21,10 +19,9 @@ def sources():
 
 @pytest.fixture(scope='module')
 def oracle(deployer,sources):
-
+    #  Deploy the oracle and setup the trusted sources with initial prices
     
     INITIAL_NFT_PRICE = 999e18
-
 
     return TrustfulOracle.at(TrustfulOracleInitializer.deploy(
             sources,
@@ -34,15 +31,13 @@ def oracle(deployer,sources):
         ).oracle()
         )
         
-    
-
 @pytest.fixture(scope='module')
 def exchange(oracle, deployer):
     # Deploy the exchange and get the associated ERC721 token
+
     EXCHANGE_INITIAL_ETH_BALANCE = 10000e18
 
     return Exchange.deploy(oracle.address,{'from':deployer,'value':EXCHANGE_INITIAL_ETH_BALANCE})
-
 
 @pytest.fixture(scope='module')
 def token(exchange, deployer):
@@ -51,18 +46,16 @@ def token(exchange, deployer):
 
 @pytest.fixture(scope='module',autouse=True)
 def setup(sources,deployer):
-
+    ''' [Challenge] Compromised '''
+    
     # Fund the trusted source addresses
     for source in sources:
-
         deployer.transfer(to=source,amount='5 ether')
 
 def test_exploit(oracle,exchange,sources,attacker):
     # Exploit goes here
     pass
     
-
-
 def test_success(exchange,attacker):
 
     EXCHANGE_INITIAL_ETH_BALANCE = 10000e18

@@ -1,5 +1,4 @@
 import pytest
-
 from brownie import FlashLoanerPool, TheRewarderPool, DamnValuableToken, RewardToken, AccountingToken, chain
 
 @pytest.fixture(scope='module')
@@ -10,7 +9,6 @@ def deployer(accounts):
 def alice(accounts):
     return accounts[1]
 
-
 @pytest.fixture(scope='module')
 def bob(accounts):
     return accounts[2]
@@ -19,11 +17,9 @@ def bob(accounts):
 def charlie(accounts):
     return accounts[3]
 
-
 @pytest.fixture(scope='module')
 def david(accounts):
     return accounts[4]
-
 
 @pytest.fixture(scope='module')
 def attacker(accounts):
@@ -62,9 +58,10 @@ def setup(liquidityToken,rewardToken,flashloanPool,rewardPool,accountingToken,de
 
     TOKENS_IN_LENDER_POOL = 1000000e18
 
-    
+    # Set initial token balance of the pool offering flash loans
     liquidityToken.transfer(flashloanPool.address,TOKENS_IN_LENDER_POOL,{'from':deployer})
     
+    # Alice, Bob, Charlie and David deposit 100 tokens each
     for user in users:
 
         amount = 100e18
@@ -93,7 +90,6 @@ def setup(liquidityToken,rewardToken,flashloanPool,rewardPool,accountingToken,de
     assert rewardToken.totalSupply() == 100e18
 
     # Two rounds should have occurred so far
-
     assert rewardPool.roundNumber() == 2
 
 
@@ -101,8 +97,6 @@ def test_exploit(liquidityToken,flashloanPool,rewardPool,accountingToken,rewardT
     # Exploit goes here
     pass
     
-
-
 
 def test_success(rewardPool,rewardToken,users,attacker):
     # SUCCESS CONDITION 
@@ -116,7 +110,6 @@ def test_success(rewardPool,rewardToken,users,attacker):
         rewardPool.distributeRewards({'from':user})
 
         assert rewardToken.balanceOf(user.address) == 25e18
-
 
     # Rewards must have been issued to the attacker account
     rewardToken.totalSupply() > 100e18

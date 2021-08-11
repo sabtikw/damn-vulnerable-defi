@@ -1,5 +1,4 @@
 import pytest
-
 from brownie import accounts, FlashLoanReceiver,NaiveReceiverLenderPool
 
 @pytest.fixture(scope='module')
@@ -10,11 +9,9 @@ def deployer(accounts):
 def attacker(accounts):
     return accounts[1]
 
-
 @pytest.fixture(scope='module')
 def user(accounts):
     return accounts[2]
-
 
 @pytest.fixture(scope='module')
 def pool(deployer):
@@ -24,13 +21,10 @@ def pool(deployer):
 def receiver(pool,user):
     return FlashLoanReceiver.deploy(pool.address, {'from': user})
 
-
 @pytest.fixture(scope='module',autouse=True)
 def setup(pool,receiver,deployer,user): 
     ''' [Challenge] Naive Receiver '''
 
-   
-    
     # SETUP SCENARIO
 
     #Pool has 1000 ETH in balance
@@ -48,7 +42,6 @@ def setup(pool,receiver,deployer,user):
 
 def intial_state_test(pool,receiver):
 
-    
      #Pool has 1000 ETH in balance
     ETHER_IN_POOL = 1000e18
 
@@ -60,9 +53,6 @@ def intial_state_test(pool,receiver):
     assert receiver.balance() == ETHER_IN_RECEIVER
 
     
-     
-    
-    
 def test_exploit(pool,receiver,attacker):
     # Exploit goes here
     pass
@@ -70,9 +60,7 @@ def test_exploit(pool,receiver,attacker):
 def test_success(pool,receiver):
     # SUCCESS CONDITION 
 
-
     assert receiver.balance() == 0
-
     assert pool.balance() ==  1010e18
    
      

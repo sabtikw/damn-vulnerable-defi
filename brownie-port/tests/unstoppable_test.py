@@ -1,5 +1,4 @@
 import pytest
-
 from brownie import accounts, DamnValuableToken, UnstoppableLender, ReceiverUnstoppable, reverts
 
 @pytest.fixture(scope='module')
@@ -10,7 +9,6 @@ def deployer(accounts):
 def attacker(accounts):
     return accounts[1]
 
-
 @pytest.fixture(scope='module')
 def someUser(accounts):
     return accounts[2]
@@ -19,11 +17,9 @@ def someUser(accounts):
 def token(deployer):
     return DamnValuableToken.deploy({'from': deployer})
 
-
 @pytest.fixture(scope='module')
 def pool(token,deployer):
     return UnstoppableLender.deploy(token.address,{'from': deployer})
-
 
 @pytest.fixture(scope='module')
 def receiverContract(pool,someUser):
@@ -47,19 +43,15 @@ def setup(token,pool,receiverContract,deployer,attacker,someUser):
        
 
 def test_flashloan(receiverContract,someUser):
+
     # Show it's possible for anyone to take out a flash loan
-    
     receiverContract.executeFlashLoan(10,{'from':someUser})
-    
-     
-    
+
     
 def test_exploit(pool,token,attacker):
     # Exploit goes here
     pass
     
-
-
 
 def test_success(receiverContract,someUser):
     # SUCCESS CONDITION 

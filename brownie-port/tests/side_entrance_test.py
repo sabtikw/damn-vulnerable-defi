@@ -1,5 +1,4 @@
 import pytest
-
 from brownie import accounts, SideEntranceLenderPool
 
 @pytest.fixture(scope='module')
@@ -10,19 +9,13 @@ def deployer(accounts):
 def attacker(accounts):
     return accounts[1]
 
-
 @pytest.fixture(scope='module')
 def someUser(accounts):
     return accounts[2]
 
-
-
-
 @pytest.fixture(scope='module')
 def pool(deployer):
     return SideEntranceLenderPool.deploy({'from': deployer})
-
-
 
 
 @pytest.fixture(scope='module',autouse=True)
@@ -37,15 +30,18 @@ def setup(pool,deployer):
     assert pool.balance() == ETHER_IN_POOL
 
 
-
 def exploit_test(pool,attacker):
     #/** YOUR EXPLOIT GOES HERE */
     pass
-    
+
 
 def test_success(pool,attacker):
 
     assert pool.balance() == 0
+    
+    # Not checking exactly how much is the final balance of the attacker,
+    # because it'll depend on how much gas the attacker spends in the attack
+    # If there were no gas costs, it would be balance before attack + ETHER_IN_POOL
 
     assert attacker.balance > 1000e18
 

@@ -1,5 +1,4 @@
 import pytest
-
 from brownie import DamnValuableToken, TrusterLenderPool
 
 
@@ -11,19 +10,17 @@ def deployer(accounts):
 def attacker(accounts):
     return accounts[1]
 
-
 @pytest.fixture(scope='module')
 def token(deployer):
     return DamnValuableToken.deploy({'from':deployer})
-
 
 @pytest.fixture(scope='module')
 def pool(token,deployer):
     return TrusterLenderPool.deploy(token.address, {'from':deployer})
 
-
 @pytest.fixture(scope='module',autouse=True)
 def setup(pool,token,deployer,attacker):
+    ''' [Challenge] truster '''
 
     TOKENS_IN_POOL = 1000000e18
 
@@ -34,13 +31,10 @@ def setup(pool,token,deployer,attacker):
     assert token.balanceOf(attacker) == 0
 
 
-
-
 def test_exploit(pool,token,attacker):
     # Exploit goes here
     
     pass
-    
 
 
 def test_success(token,attacker):
