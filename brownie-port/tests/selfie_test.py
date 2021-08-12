@@ -35,7 +35,7 @@ def setup(token,pool,deployer):
 
     assert token.balanceOf(pool.address) == TOKENS_IN_POOL
 
-def test_exploit(token,pool,attacker):
+def test_exploit(token,pool,governance,attacker):
     # Exploit goes here
     pass
 
