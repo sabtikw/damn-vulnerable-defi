@@ -41,7 +41,7 @@ def exchange(oracle, deployer):
 
 @pytest.fixture(scope='module')
 def token(exchange, deployer):
-    return DamnValuableNFT.at(exchange.address.token())
+    return DamnValuableNFT.at(exchange.token())
 
 
 @pytest.fixture(scope='module',autouse=True)
@@ -52,14 +52,12 @@ def setup(sources,deployer):
     for source in sources:
         deployer.transfer(to=source,amount='5 ether')
 
-def test_exploit(oracle,exchange,sources,attacker):
+def test_exploit(oracle,exchange,token,attacker):
     # Exploit goes here
     pass
     
 def test_success(exchange,attacker):
 
-    EXCHANGE_INITIAL_ETH_BALANCE = 10000e18
-
     assert exchange.balance() == 0
 
-    assert attacker.balance() == EXCHANGE_INITIAL_ETH_BALANCE
+    
